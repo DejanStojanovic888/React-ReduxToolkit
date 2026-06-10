@@ -11,10 +11,7 @@ function AccountOperations() {
 
   const dispatch = useDispatch();
   // const account = useSelector((store) => store.account);
-  const { loan: currentLoan, loanPurpose: currentLoanPurpose, balance } = useSelector((store) => store.account);
-
-  console.log(balance)
-
+  const { loan: currentLoan, loanPurpose: currentLoanPurpose, balance, isLoading } = useSelector((store) => store.account);
 
   function handleDeposit() {
     if (!depositAmount || !currency) return;
@@ -66,7 +63,11 @@ function AccountOperations() {
             <option value="GBP">British Pound</option>
           </select>
 
-          <button onClick={handleDeposit}>Deposit {depositAmount}</button>
+          {/* disabled is a standard HTML attribute — when it's true, 
+          the button is unclickable and visually grayed out. */}
+          <button onClick={handleDeposit} disabled={isLoading}>
+            {isLoading ? "Converting..." : `Deposit ${depositAmount}`}
+          </button>
         </div>
 
         <div>
