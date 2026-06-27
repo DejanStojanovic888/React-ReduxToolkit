@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deposit, payLoan, requestLoan, withdraw } from "./accountSlice";
+
+import { deposit, withdraw, payLoan, requestLoan } from "./accountSlice";
 
 function AccountOperations() {
   const [depositAmount, setDepositAmount] = useState("");
@@ -16,12 +17,12 @@ function AccountOperations() {
   function handleDeposit() {
     if (!depositAmount || !currency) return;
 
-    // ovde ako dispatch vidi da je u argumentu FUNKCIJA
+    // ovde ako DISPATCH vidi da se return-uje FUNKCIJA
     // kada Redux vidi to znace da je ta funkcija THUNK(middleware) 
-    // i onda ce PRVO pozvati tu funkciju(nece odmah dispatch-ovati action
-    //  to the store) 
+    // i onda ce PRVO pozvati tu funkciju(nece odmah dispatch-ovati action to the store) 
     // ako pak primi objekat umesto FUNKCIJE onda ce odmah dispatch-ovati taj objekat to the store
-    dispatch(deposit(depositAmount, currency));
+    // Dakle middleware gleda šta je argument dispatch-a — ako je funkcija, zna da je thunk.
+    dispatch(deposit(depositAmount, currency));  // odavde ide na accountSlice.jsx i tu ide na PRVO pa na DRUGO
     setDepositAmount("");
     setCurrency("USD");
   }

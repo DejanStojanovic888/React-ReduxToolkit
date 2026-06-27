@@ -1,14 +1,16 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';  // deprecated method(ReduxToolkit is recommended)
+// automaticaly: combines reducers, thunk middleware, DevTools
+import { configureStore } from '@reduxjs/toolkit'; 
 import accountReducer from './features/accounts/accountSlice.jsx';
 import customerReducer from './features/customers/customerSlice.jsx';
-import {thunk} from 'redux-thunk';
 
-const rootReducer = combineReducers({
-  account: accountReducer,
-  customer: customerReducer
-});
-
-const store = createStore(rootReducer, applyMiddleware(thunk));
+// Ključna stvar — kada promena jedne vrednosti automatski uzrokuje promenu druge, 
+// Redux daje preglednost jer sve ide kroz jedan tok (action → reducer → novi state).
+const store = configureStore({
+  reducer: {
+    account: accountReducer,
+    customer: customerReducer
+  }
+})
 
 export default store;
 
